@@ -17,7 +17,9 @@ def index(request):
 
 def post_detail(request, id):
     template_name = 'blog/detail.html'
-    post = get_object_or_404(Post.objects.filter(is_published=True, pub_date__lte=timezone.now()), pk=id)
+    post = get_object_or_404(Post.objects.filter(is_published=True, 
+                                                 pub_date__lte=timezone.now()), 
+                             pk=id)
     context = {'post': post}
     return render(request, template_name, context)
 
