@@ -24,7 +24,7 @@ def post_detail(request, id):
 
 def category_posts(request, category_slug):
     template_name = 'blog/category.html'
-    category = get_object_or_404(Category, slug=category_slug, 
+    category = get_object_or_404(Category, slug=category_slug,
                                  is_published=True)
     post_list = Post.objects.select_related(
         'category', 'location', 'author').filter(
