@@ -4,10 +4,13 @@ from django.utils import timezone
 
 
 def index(request):
-    post_list = {'post_list': Post.objects.select_related('category')
-                                            .filter(is_published=True)
-                                            .filter(created_at__lte=timezone.now())
-                                            .filter(category__is_published=True)[0:5]}
+    post_list = {'post_list': Post.objects.select_related(
+        'category'
+        ).filter(
+            is_published=True
+            ).filter(
+                created_at__lte=timezone.now()
+                ).filter(category__is_published=True)[0:5]}
     return render(request, 'blog/index.html', post_list)
 
 
