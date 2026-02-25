@@ -8,7 +8,7 @@ def index(request):
         'post_list': Post.objects.select_related('category').filter(
             is_published=True
         ).filter(
-            created_at__lte=timezone.now()
+            pub_date__lte=timezone.now()
         ).filter(
             category__is_published=True
         )[:5]}
@@ -17,15 +17,15 @@ def index(request):
 
 def post_detail(request, id):
     template_name = 'blog/detail.html'
-    post = get_object_or_404(Post, pk=id)
+    post = get_object_or_404(Post.objects.filter(is_published=True, pub_date__lte=timezone.now()), pk=id)
     context = {'post': post}
     return render(request, template_name, context)
 
 
 def category_posts(request, category_slug):
     template_name = 'blog/category.html'
-    category = get_object_or_404(Category, slug=category_slug,
-                                 is_published=True)
+    category = get_object_or_404(Category.objects.filter(is_published=True),
+                                 slug=category_slug)
     post_list = Post.objects.select_related(
         'category', 'location', 'author').filter(
             category=category, is_published=True,
